@@ -1,0 +1,206 @@
+import os
+import re
+import sys
+import time
+import json
+from datetime import datetime
+from colorama import init, Fore, Style
+
+# Initialize colorama
+init(autoreset=True)
+
+# Clears the screen
+def clear():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+# Typewriter-style printing
+def typeprint(text, color=Fore.WHITE, delay=0.05):
+    for char in text:
+        sys.stdout.write(f"{color}{char}")
+        sys.stdout.flush()
+        time.sleep(delay)
+    print()
+
+# Typewriter-style input
+def typeinput(prompt, color=Fore.WHITE, delay=0.05):
+    for char in prompt:
+        sys.stdout.write(f"{color}{char}")
+        sys.stdout.flush()
+        time.sleep(delay)
+    return input()
+
+# Animated dots effect
+def animated_dots(text, duration=3, delay=0.5):
+    end_time = time.time() + duration
+    dots = ["", ".", "..", "..."]
+    i = 0
+    while time.time() < end_time:
+        sys.stdout.write("\r" + text + dots[i % len(dots)])
+        sys.stdout.flush()
+        time.sleep(delay)
+        i += 1
+    print()
+
+# Password validation
+def is_valid_password(password):
+    pattern = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*[^A-Za-z0-9]).{8,}$'
+    return bool(re.match(pattern, password))
+
+# Register a new user and return username
+def Register_User():
+    typeprint("It's about time we created your account!", color=Fore.LIGHTCYAN_EX)
+    typeprint("You will need to fill in some details!", color=Fore.LIGHTCYAN_EX)
+
+    name = typeinput("Please enter your full name:  ", color=Fore.YELLOW)
+    username = typeinput("Please enter a username:  ", color=Fore.YELLOW)
+    password = typeinput("Please enter a password (8+ chars, uppercase, lowercase, special char):  ", color=Fore.YELLOW)
+    confirm_password = typeinput("Please confirm your password:  ", color=Fore.YELLOW)
+    email = typeinput("Please enter your email:  ", color=Fore.YELLOW)
+
+    # Validations
+    if len(name.strip()) == 0:
+        typeprint("Name cannot be empty.", color=Fore.LIGHTRED_EX)
+        return None
+
+    if len(username.strip()) < 3:
+        typeprint("Username must be at least 3 characters long.", color=Fore.LIGHTRED_EX)
+        return None
+
+    if password != confirm_password:
+        typeprint("Passwords do not match.", color=Fore.LIGHTRED_EX)
+        return None
+
+    if not is_valid_password(password):
+        typeprint("Password does not meet complexity requirements.", color=Fore.LIGHTRED_EX)
+        return None
+
+    if "@" not in email or "." not in email:
+        typeprint("Invalid email address.", color=Fore.LIGHTRED_EX)
+        return None
+
+    # Load existing accounts
+    accounts_file = "accounts.json"
+    if os.path.exists(accounts_file):
+        with open(accounts_file, "r") as file:
+            try:
+                accounts = json.load(file)
+            except json.JSONDecodeError:
+                accounts = []
+    else:
+        accounts = []
+
+    # Check if username exists
+    for account in accounts:
+        if account["Username"] == username:
+            typeprint("Username already exists. Please choose another.", color=Fore.LIGHTRED_EX)
+            return None
+
+    # Save new account
+    new_account = {
+        "Name": name,
+        "Username": username,
+        "Password": password,
+        "Email": email,
+        "Joined": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    }
+    accounts.append(new_account)
+    with open(accounts_file, "w") as file:
+        json.dump(accounts, file, indent=4)
+
+    typeprint("\nAccount created successfully!", color=Fore.LIGHTGREEN_EX)
+    return username  # Return the username to track the current user
+
+# Send a message
+def send_message(current_user):
+    text = typeinput("Enter your message:  ", color=Fore.YELLOW)
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    msg_dict = {"Username": current_user, "Text": text, "Time": timestamp}
+
+    messages_file = "General.json"
+    if os.path.exists(messages_file):
+        with open(messages_file, "r") as file:
+            try:
+                data = json.load(file)
+                if not isinstance(data, list):
+                    data = [data]
+            except json.JSONDecodeError:
+                data = []
+    else:
+        data = []
+
+    data.append(msg_dict)
+
+    with open(messages_file, "w") as file:
+        json.dump(data, file, indent=2)
+
+# Display chat history
+def display_messages():
+    messages_file = "General.json"
+    if not os.path.exists(messages_file):
+        typeprint("No messages found.", color=Fore.LIGHTRED_EX)
+        return
+    with open(messages_file, "r") as file:
+        try:
+            data = json.load(file)
+        except json.JSONDecodeError:
+            typeprint("No messages found.", color=Fore.LIGHTRED_EX)
+            clear()
+            return
+    print("-------- Chat History --------")
+    for msg in data:
+        print(f"[{msg['Time']}] {msg['Username']}: {msg['Text']}")
+
+# Main menu
+def main():
+    current_user = None
+    clear()
+    typeprint("Welcome to the Multi-User Chatroom!", color=Fore.LIGHTCYAN_EX)
+    typeprint("You are currently in the menu page, here are some options!\n", color=Fore.LIGHTCYAN_EX)
+
+    choice = ""
+    while choice != "6":
+        typeprint("1. Login Page\n", color=Fore.LIGHTGREEN_EX)
+        typeprint("2. Register User\n", color=Fore.LIGHTGREEN_EX)
+        typeprint("3. Forgot Password\n", color=Fore.LIGHTGREEN_EX)
+        typeprint("4. Send Message\n", color=Fore.LIGHTGREEN_EX)
+        typeprint("5. View Messages\n", color=Fore.LIGHTGREEN_EX)
+        typeprint("6. Exit\n", color=Fore.LIGHTGREEN_EX)
+
+        choice = typeinput("Please enter a number:  ", color=Fore.CYAN)
+
+        if choice == "1":
+            # Here you could implement login functionality
+            typeprint("Login functionality coming soon...", color=Fore.LIGHTYELLOW_EX)
+            time.sleep(2)
+            clear()
+
+        elif choice == "2":
+            animated_dots("Teleporting you to registration", duration=3, delay=0.5)
+            clear()
+            current_user = Register_User()  # Track logged-in user
+
+        elif choice == "3":
+            typeprint("Forgot Password functionality coming soon...", color=Fore.LIGHTYELLOW_EX)
+            time.sleep(2)
+            clear()
+
+        elif choice == "4":
+            if current_user:
+                send_message(current_user)
+            else:
+                typeprint("You must register or login first!", color=Fore.LIGHTRED_EX)
+
+        elif choice == "5":
+            display_messages()
+
+        elif choice == "6":
+            typeprint("Exiting... Goodbye!", color=Fore.LIGHTCYAN_EX)
+            time.sleep(1)
+            clear()
+
+        else:
+            typeprint("Please enter a valid choice!", color=Fore.LIGHTRED_EX)
+
+# Run the program
+if __name__ == "__main__":
+    main()
