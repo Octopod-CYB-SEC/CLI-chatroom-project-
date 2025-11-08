@@ -1,0 +1,1 @@
+A simple command-line chatroom application written in Python. Users can register, send messages, and view chat history. The program uses JSON files to store accounts and messages and features a colorful, typewriter-style interface.
