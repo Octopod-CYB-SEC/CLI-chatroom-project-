@@ -8,7 +8,6 @@ from colorama import init, Fore, Style
 
 # Initialize colorama
 init(autoreset=True)
-
 # Clears the screen
 def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -109,6 +108,33 @@ def Register_User():
 
     typeprint("\nAccount created successfully!", color=Fore.LIGHTGREEN_EX)
     return username  # Return the username to track the current user
+def User_login():
+    typeprint("In order for you to log in I'll need some details: ")
+    username = typeinput("Please enter your username:  ", color=Fore.YELLOW)
+    password = typeinput("Please enter your password: ", color=Fore.YELLOW)
+
+    user = {"Username": username, "password": password}
+    accounts = "accounts.json"
+
+    if not os.path.exists(accounts):
+        typeprint("No accounts made yet")
+        return
+
+    try:
+        with open(accounts, "r") as file:
+            data = json.load(file)
+    except json.JSONDecodeError:
+        typeprint("No accounts made yet")
+        clear()
+        return
+
+    for account in data:
+        if user["Username"] == account.get("Username") and user["password"] == account.get("Password"):
+            typeprint("welcome")
+            return user["Username"]
+            
+
+    typeprint("Incorrect username or password.")
 
 # Send a message
 def send_message(current_user):
@@ -169,15 +195,17 @@ def main():
         choice = typeinput("Please enter a number:  ", color=Fore.CYAN)
 
         if choice == "1":
-            # Here you could implement login functionality
-            typeprint("Login functionality coming soon...", color=Fore.LIGHTYELLOW_EX)
-            time.sleep(2)
-            clear()
+            logged_in = User_login()
+            if logged_in:
+                current_user = logged_in  # stores the user as current_user
+                typeprint("You are now logged in!", color=Fore.LIGHTCYAN_EX)
+                time.sleep(1)
+                clear()
 
         elif choice == "2":
             animated_dots("Teleporting you to registration", duration=3, delay=0.5)
             clear()
-            current_user = Register_User()  # Track logged-in user
+            current_user = Register_User()  # blahblahblah
 
         elif choice == "3":
             typeprint("Forgot Password functionality coming soon...", color=Fore.LIGHTYELLOW_EX)
@@ -200,7 +228,6 @@ def main():
 
         else:
             typeprint("Please enter a valid choice!", color=Fore.LIGHTRED_EX)
-
-# Run the program
-if __name__ == "__main__":
+# Run the program 
+if __name__ == "__main__": 
     main()
