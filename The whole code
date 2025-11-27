@@ -5,7 +5,8 @@ import time
 import json
 from datetime import datetime
 from colorama import init, Fore, Style
-
+import random
+import smtplib
 # Initialize colorama
 init(autoreset=True)
 # Clears the screen
@@ -44,6 +45,66 @@ def animated_dots(text, duration=3, delay=0.5):
 def is_valid_password(password):
     pattern = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*[^A-Za-z0-9]).{8,}$'
     return bool(re.match(pattern, password))
+def forgot_password():
+    import os
+    import json
+    import random
+    import smtplib
+
+    email = input("Enter your email: ")
+    reset_code = ""
+    current_acc = None
+    reset_token = str(random.randint(1, 10000))   # code being sent
+
+    accounts_file = "accounts.json"
+
+    if not os.path.exists(accounts_file):
+        print("No accounts made yet")
+        exit()
+
+    with open(accounts_file, "r") as file:
+        data = json.load(file)
+
+    for account in data:
+        if email == account.get("Email"):
+            print("Sending code to your email...")
+
+            sender = "aaronmehmi489@gmail.com"
+            s_password = "notmyrealpassword"
+
+            subject = "Reset code"
+            message = f"""From: {sender}
+    To: {email}
+    Subject: {subject}
+
+    Your reset code is: {reset_token}
+    """
+
+            current_acc = account
+
+           
+            server = smtplib.SMTP("smtp.gmail.com", 587)
+            server.starttls()
+            server.login(sender, s_password)
+            server.sendmail(sender, email, message)
+            server.quit()        
+            break
+
+   
+    if current_acc is None:
+        print("No account with that email.")
+        exit()
+   
+    while reset_code != reset_token:
+        reset_code = input("Enter the reset code: ")
+
+    new_password = input("Enter your new password: ")
+    current_acc["Password"] = new_password
+
+    with open(accounts_file, "w") as file:
+        json.dump(data, file, indent=4)
+
+    print("Your new password has been updated.")
 
 # Register a new user and return username
 def Register_User():
@@ -132,7 +193,7 @@ def User_login():
         if user["Username"] == account.get("Username") and user["password"] == account.get("Password"):
             typeprint("welcome")
             return user["Username"]
-            
+
 
     typeprint("Incorrect username or password.")
 
@@ -208,7 +269,7 @@ def main():
             current_user = Register_User()  # blahblahblah
 
         elif choice == "3":
-            typeprint("Forgot Password functionality coming soon...", color=Fore.LIGHTYELLOW_EX)
+            forgot_password()
             time.sleep(2)
             clear()
 
