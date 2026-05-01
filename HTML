@@ -9,36 +9,48 @@
      margin: 0;
      padding:20px;
      display: flex;
-     gap:20px}
+     gap:20px;
+     font-family:Arial}
 
 
+.item{text-decoration-line:none; color:white}
+.item:hover{background-color:rgba(81, 129, 18, 0.9); cursor: pointer;font-family:Arial;}
 
-.item:hover{background-color:rgba(81, 129, 18, 0.9); cursor: pointer;}
-
-#loginBox{background-color:rgb(230, 111, 95);width:300px;height:300px;margin:auto}
-
-
+#loginBox{background-color:rgb(230, 111, 95);width:300px;height:300px;margin:auto;}
+body{background-color: powderblue;}
+.log_in_form{white-space:10px;}
 </style>
 
 
 
 <title>Just a lil project</title>
 
-<h1 style="background-color:aquamarine;color:white;font-size:40px;">This is a prototype</h1>
+<h1 style="background-color:rgb(238, 113, 104);color:white;font-size:40px;font-family:Arial;">Teamwork.inc</h1>
 
 <ul id="accountlist">
-    <li class="item"><a href="#Sign Up"></a>Sign up</li>
-    <li class="item"><a href="#Log in"></a>Log in</li>
-    <li class="item"><a href="#About Us"></a>About Us</li>
+    <li><a href="#Sign Up" class="item">Sign up</a></li>
+    <li><a href="#Log in" class="item">Log in</a></li>
+    <li><a href="#About Us" class="item">About Us</a></li>
 </ul>
 
 
 
 
 <div id="loginBox">
-     <h1 style="color:white">Log In</h1>
-
-
+     <h1 style="color:white;text-align:center;font-family:Arial;">Log In</h1>
+     <form class="log_in_form">
+           <label for="username" style="color:white;font-family:Arial;">Username:</label><br>
+           <input type="text" id="Username" name="Username" placeholder="Enter Username"><br>
+           <br>
+           <br>
+           <label for="password" style="color:white;font-family:Arial;">Password:</label><br>
+           <input type="text" id="Password" name="Password" placeholder="Enter Password"><br>
+     </form>
+     <br>
+     <a href="#forgot password?" style="font-family:Arial">Forgot Password?</a>
+     <br>
+     <br>
+     <button type="submit">Log in</button>
 </div>
 
 
