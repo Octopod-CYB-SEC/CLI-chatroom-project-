@@ -1,45 +1,78 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-  </head>
+<head>
+  <meta charset="UTF-8">
+
   <style>
-     *{font-family: Arial, Helvetica, sans-serif}
+    *{
+      font-family: Arial, Helvetica, sans-serif;
+    }
 
-      input{margin:20px}
+    input{
+      padding:10px;
+      margin:10px;
+    }
 
-      div{outline:solid 1px black;text-align: center; width: 500px;height:400px;margin:auto;margin-top: 100px;}
+    #Q1{
+      padding:10px;
+    }
 
-      h1{text-align:center}
+    div{
+      outline:solid 1px black;
+      text-align:center;
+      width:500px;
+      height:400px;
+      margin:auto;
+      margin-top:100px;
+    }
 
-      #submit{border:solid rgb(0, 0, 0) 2px;border-radius:5px;background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);transition-duration:0.5s}
+    h1{
+      text-align:center;
+    }
 
-      #submit:hover{background-color: red;color:white}
+    #submit{
+      border:solid black 2px;
+      border-radius:5px;
+      background-color:white;
+      color:black;
+      transition-duration:0.5s;
+      padding:10px 20px;
+    }
 
-      input{padding:10px;margin:10px}
+    #submit:hover{
+      background-color:red;
+      color:white;
+    }
   </style>
-  <body>
-     <h1>Culture day form</h1>
+</head>
 
+<body>
 
+<h1>Culture day form</h1>
 
-     <div>
-      <h1>Fill in the form</h1>
+<div>
+  <h1>Fill in the form</h1>
 
+  <form action="/submit-student" method="POST">
 
-      <form>
-        <label for="Q1">Enter your name:</label><br>
-        <input type="text" id="Q1" placeholder="Enter your whole name:" for="fullname"><br>
+    <label for="Q1">Enter your name:</label><br>
+    <input type="text" id="Q1" name="fullname"
+      placeholder="Enter your whole name:" required><br>
 
-        <label for="Q2">Enter your year group:</label><br>
-        <input type="text" id="Q2" placeholder="What year are you in?" for="Y"><br>
+    <label for="Q2">Enter your year group:</label><br>
+    <input type="text" id="Q2" name="yearGroup"
+      placeholder="What year are you in?" required><br>
 
-        <label for="Q3">Form group:</label><br>
-        <input type="text" id="Q3" placeholder="Enter your form group:"><br>
-        
-        <button id="submit">Submit</button>
-      </form>
+    <label for="Q3">Form group:</label><br>
+    <input type="text" id="Q3" name="formGroup"
+      placeholder="Enter your form group:" required><br>
 
-     </div>
-  </body>
+    <button type="submit" id="submit">
+      Submit
+    </button>
+
+  </form>
+</div>
+
+</body>
 </html>
