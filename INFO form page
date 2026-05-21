@@ -1,1 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+  </head>
+  <style>
+     *{font-family: Arial, Helvetica, sans-serif}
 
+      input{margin:20px}
+
+      div{outline:solid 1px black;text-align: center; width: 500px;height:400px;margin:auto;margin-top: 100px;}
+
+      h1{text-align:center}
+
+      #submit{border:solid rgb(0, 0, 0) 2px;border-radius:5px;background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);transition-duration:0.5s}
+
+      #submit:hover{background-color: red;color:white}
+
+      input{padding:10px;margin:10px}
+  </style>
+  <body>
+     <h1>Culture day form</h1>
+
+
+
+     <div>
+      <h1>Fill in the form</h1>
+
+
+      <form>
+        <label for="Q1">Enter your name:</label><br>
+        <input type="text" id="Q1" placeholder="Enter your whole name:" for="fullname"><br>
+
+        <label for="Q2">Enter your year group:</label><br>
+        <input type="text" id="Q2" placeholder="What year are you in?" for="Y"><br>
+
+        <label for="Q3">Form group:</label><br>
+        <input type="text" id="Q3" placeholder="Enter your form group:"><br>
+        
+        <button id="submit">Submit</button>
+      </form>
+
+     </div>
+  </body>
+</html>
