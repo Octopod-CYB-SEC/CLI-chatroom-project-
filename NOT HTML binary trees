@@ -1,0 +1,46 @@
+class Node: 
+ def __init__(self,data):
+  self.data=data
+  self.left=None 
+  self.right=None
+def pre_order_traversal(node):
+  print(node.data)
+  if node.left is not None:
+   in_order_traversal(node.left)
+  if node.right is not None:
+   in_order_traversal(node.right)
+def in_order_traversal(node):
+  if node.left is not None:
+   in_order_traversal(node.left)
+  print(node.data)
+  if node.right is not None:
+   in_order_traversal(node.right)
+def post_order_traversal(node):
+  if node.left is not None:
+   in_order_traversal(node.left)
+  if node.right is not None:
+   in_order_traversal(node.right)
+  print(node.data)
+   
+  
+root=Node("R")
+node_a=Node("A")
+node_b=Node("B")
+node_c=Node("C")
+node_d=Node("D")
+node_e=Node("E")
+node_f=Node("F")
+node_g=Node("G")
+
+root.left=node_a
+root.right=node_b
+
+node_a.left=node_c
+node_a.right=node_d
+
+node_b.left=node_e
+node_b.right=node_f
+
+node_f.left=node_g
+
+in_order_traversal(root)
